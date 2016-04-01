@@ -10,13 +10,13 @@ namespace XMLUnitTestSerializer
     {
         public string Nombre;
         public int Edad;
-        public string Address { get; set; }
+        public int NumCuenta { get; set; }
 
         public Persona()
         {
             Nombre = "Ale";
             Edad = 20;
-            Address = "San Pedro";
+            NumCuenta = 21351064;
         }
     }
 }

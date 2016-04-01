@@ -74,20 +74,12 @@ namespace XMLUnitTestSerializer
         }
 
         [TestMethod]
-        public void Serialize_ClassDataWithSimpleAttributes_PersonaXML()
+        public void Serialize_ClassDataWithSimpleFieldsAndProperties_PersonaXML()
         {
             XMLSerializer serializer = new XMLSerializer();
             var data = serializer.Serialize(new Persona());
-            Assert.AreEqual("<Persona>\n\t<Nombre>Ale</Nombre>\n\t<Edad>20</Edad>\n</Persona>",
-                    data, "Expected a Persona xml");
-        }
-
-        [TestMethod]
-        public void Serialize_ClassDataWithSimpleProperties_PersonaXML()
-        {
-            XMLSerializer serializer = new XMLSerializer();
-            var data = serializer.Serialize(new Persona());
-            Assert.AreEqual("<Persona>\n\t<nombre>Ale</nombre>\n\t<edad>20</edad>\n</Persona>",
+            Assert.AreEqual("<Persona>\n\t<Nombre>Ale</Nombre>\n\t<Edad>20</Edad>\n" +
+                            "\t<NumCuenta>21351064</NumCuenta>\n</Persona>",
                     data, "Expected a Persona xml");
         }
     }
