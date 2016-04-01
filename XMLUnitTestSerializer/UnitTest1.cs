@@ -117,5 +117,17 @@ namespace XMLUnitTestSerializer
                             "</PersonaAddress>",
                             data, "Expected a PersonaAddress xml");
         }
+
+        [TestMethod]
+        public void Serialize_ClassWithAttributes_PersonaAttributesXML()
+        {
+            XMLSerializer serializer = new XMLSerializer();
+            var data = serializer.Serialize(new PersonaAttributes());
+            Assert.AreEqual("<PersonaAttributes>\n\t<Edad>20</Edad>\n\t" +
+                            "<Nombre>Goku</Nombre>\n\t<Direccion>San Pedro Sula</Direccion>\n\t" +
+                            "<Colonia>Montecarlo</Colonia>\n" +
+                            "</PersonaAttributes>",
+                            data, "Expected a PersonaAddress xml");
+        }
     }
 }

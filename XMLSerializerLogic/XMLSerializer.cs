@@ -1,9 +1,10 @@
-﻿using System;
+﻿
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using XMLSerializerLogic.Attributes;
 
 namespace XMLSerializerLogic
 {
@@ -68,6 +69,8 @@ namespace XMLSerializerLogic
         {
             foreach (var member in members)
             {
+                string attributeName = SetNameAttribute(member, content);
+
                 if (member.GetValue(content).GetType().IsClass && !(member.GetValue(content) is string))
                 {
                     xml += "\n";
@@ -83,7 +86,11 @@ namespace XMLSerializerLogic
                     xml += "\n";
                     xml += AddTabs(tabs);
 
-                    xml += SerializePrimitiveData(member.GetValue(content), member.Name);
+                    if(attributeName != "")
+                        xml += SerializePrimitiveData(attributeName, member.Name);
+
+                    else
+                        xml += SerializePrimitiveData(member.GetValue(content), member.Name);
                 }
             }
 
@@ -102,7 +109,6 @@ namespace XMLSerializerLogic
 
         private string ParsePrimitiveDataType(string dataType)
         {
-            //return dataType.Split('.')[1];
             string[] types = dataType.Split('.');
 
             return types[types.Length - 1];
@@ -116,6 +122,16 @@ namespace XMLSerializerLogic
                 temp += "\t";
 
             return temp;
+        }
+
+        private string SetNameAttribute(MemberInfo member, object content)
+        {
+            XmlNameAttribute attribute = (XmlNameAttribute) member.GetCustomAttribute(typeof (XmlNameAttribute));
+
+            if (attribute == null)
+                return "";
+
+            return attribute.Name;
         }
     }
 }

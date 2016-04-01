@@ -1,12 +1,16 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using XMLSerializerLogic.Attributes;
+
 namespace XMLUnitTestSerializer.TestClasses
 {
-    public class Persona
+    public class PersonaAttributes
     {
-        public string Nombre;
+        [XmlName("Goku")]
+        public string Nombre { get; set; }
         public int Edad;
 
-        public Persona()
+        public PersonaAttributes()
         {
             this.Nombre = "Alejandro";
             Edad = 20;
