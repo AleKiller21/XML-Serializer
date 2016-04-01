@@ -129,5 +129,22 @@ namespace XMLUnitTestSerializer
                             "</PersonaAttributes>",
                             data, "Expected a PersonaAddress xml");
         }
+
+        [TestMethod]
+        public void Serialize_ClassWithPrimitiveArrayElements_PersonaAttributesXML()
+        {
+            XMLSerializer serializer = new XMLSerializer();
+            var data = serializer.Serialize(new PersonaArrays());
+            Assert.AreEqual("<PersonaArrays>\n\t<Name>Alejandro</Name>\n\t" +
+                            "<Age>20</Age>" +
+                            "\n\t<TopAnime>DBZ</TopAnime>" +
+                            "\n\t<TopAnime>Fairy Tail</TopAnime>" +
+                            "\n\t<TopAnime>Bleach</TopAnime>" +
+                            "\n\t<TopAnime>Saint Seiya</TopAnime>" +
+                            "\n\t<TopAnime>Naruto</TopAnime>" +
+                            "\n\t<TopAnime>Yugioh</TopAnime>" +
+                            "\n</PersonaArrays>",
+                            data, "Expected a PersonaArrays xml");
+        }
     }
 }

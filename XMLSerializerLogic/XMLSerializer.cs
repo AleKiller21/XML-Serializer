@@ -71,13 +71,18 @@ namespace XMLSerializerLogic
             {
                 string attributeName = SetNameAttribute(member, content);
 
-                if (member.GetValue(content).GetType().IsClass && !(member.GetValue(content) is string))
+                if (ValidateIfClass(member, content))
                 {
                     xml += "\n";
                     xml += AddTabs(tabs);
 
                     xml += SerializeCustomData(member.GetValue(content),
                         ParsePrimitiveDataType(member.GetValue(content).GetType().ToString()), tabs);
+                }
+
+                else if (member.GetValue(content).GetType().IsArray)
+                {
+                    xml = SerializeArrays(member.GetValue(content), tabs, xml, member.Name);
                 }
 
 
@@ -107,6 +112,18 @@ namespace XMLSerializerLogic
             return SerializeMembers(properties, xml, content, tabs);
         }
 
+        private string SerializeArrays(object content, int tabs, string xml, string dataType)
+        {
+            foreach (var element in (IEnumerable)content)
+            {
+                xml += "\n";
+                xml += AddTabs(tabs);
+                xml += SerializePrimitiveData(element, dataType);
+            }
+
+            return xml;
+        }
+
         private string ParsePrimitiveDataType(string dataType)
         {
             string[] types = dataType.Split('.');
@@ -132,6 +149,12 @@ namespace XMLSerializerLogic
                 return "";
 
             return attribute.Name;
+        }
+
+        private bool ValidateIfClass(MemberInfo member, object content)
+        {
+            return member.GetValue(content).GetType().IsClass && !(member.GetValue(content) is string
+                                                              || member.GetValue(content) is string[]);
         }
     }
 }
