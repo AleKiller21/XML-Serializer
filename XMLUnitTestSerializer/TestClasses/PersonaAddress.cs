@@ -16,7 +16,7 @@ namespace XMLUnitTestSerializer.TestClasses
         {
             Name = "Alejandro";
             Genre = "Male";
-            address = new Address();
+            address = new Address("San Pedro Sula", "Col. Montecarlo", 5678);
         }
     }
 }

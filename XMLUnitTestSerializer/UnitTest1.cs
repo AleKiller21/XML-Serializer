@@ -75,7 +75,7 @@ namespace XMLUnitTestSerializer
         }
 
         [TestMethod]
-        public void Serialize_ClassDataWithSimpleFields_PersonaFieldsXML()
+        public void Serialize_ClassDataWithPrimitiveFields_PersonaFieldsXML()
         {
             XMLSerializer serializer = new XMLSerializer();
             var data = serializer.Serialize(new PersonaFields());
@@ -84,7 +84,7 @@ namespace XMLUnitTestSerializer
         }
 
         [TestMethod]
-        public void Serialize_ClassDataWithSimpleProperties_PersonaPropertiesXML()
+        public void Serialize_ClassDataWithPrimitiveProperties_PersonaPropertiesXML()
         {
             XMLSerializer serializer = new XMLSerializer();
             var data = serializer.Serialize(new PersonaProperties());
@@ -94,7 +94,7 @@ namespace XMLUnitTestSerializer
         }
 
         [TestMethod]
-        public void Serialize_ClassDataWithSimpleFieldsAndProperties_PersonaXML()
+        public void Serialize_ClassDataWithPrimitiveFieldsAndProperties_PersonaXML()
         {
             XMLSerializer serializer = new XMLSerializer();
             var data = serializer.Serialize(new Persona());
@@ -137,6 +137,9 @@ namespace XMLUnitTestSerializer
             var data = serializer.Serialize(new PersonaArrays());
             Assert.AreEqual("<PersonaArrays>\n\t<Name>Alejandro</Name>\n\t" +
                             "<Age>20</Age>" +
+                            "\n\t<Letters>a</Letters>" +
+                            "\n\t<Letters>l</Letters>" +
+                            "\n\t<Letters>e</Letters>" +
                             "\n\t<TopAnime>DBZ</TopAnime>" +
                             "\n\t<TopAnime>Fairy Tail</TopAnime>" +
                             "\n\t<TopAnime>Bleach</TopAnime>" +
@@ -146,5 +149,41 @@ namespace XMLUnitTestSerializer
                             "\n</PersonaArrays>",
                             data, "Expected a PersonaArrays xml");
         }
+
+        [TestMethod]
+        public void Serialize_ClassWithCustomArrayElements_PersonaAttributesXML()
+        {
+            XMLSerializer serializer = new XMLSerializer();
+            var data = serializer.Serialize(new PersonaArrayAddress());
+            Assert.AreEqual("<PersonaArrayAddress>\n\t<Name>Alejandro</Name>\n\t" +
+                            "<Age>20</Age>\n\t<Salary>56000.35</Salary>\n\t" +
+                            "<Address>\n\t\t" +
+                            "<City>San Pedro Sula</City>\n\t\t" +
+                            "<HomeAddress>Montecarlo</HomeAddress>\n\t\t" +
+                            "<HouseNumber>5678</HouseNumber>\n\t</Address>\n\t" +
+                            "<Address>\n\t\t" +
+                            "<City>Tegucigalpa</City>\n\t\t" +
+                            "<HomeAddress>Los Laureles</HomeAddress>\n\t\t" +
+                            "<HouseNumber>8765</HouseNumber>\n\t</Address>\n" +
+                            "</PersonaArrayAddress>",
+                            data, "Expected a PersonaArrays xml");
+        }
     }
 }
+
+
+//<PersonaArrayAddress>
+//    <Name>Alejandro</Name>
+//    <Age>20</Age>
+//    <Salary>56000.35</Salary>
+//    <Address>
+//        <City>San Pedro Sula</City>
+//        <HomeAddress>Montecarlo</HomeAddress>
+//        <HouseNumber>5678</HouseNumber>
+//    </Address>
+//    <Address>
+//        <City>Tegucigalpa</City>
+//        <HomeAddress>Los Laureles</HomeAddress>
+//        <HouseNumber>8765</HouseNumber>
+//    </Address>
+//</PersonaArrayAddress>

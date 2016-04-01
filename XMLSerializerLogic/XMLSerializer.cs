@@ -118,7 +118,13 @@ namespace XMLSerializerLogic
             {
                 xml += "\n";
                 xml += AddTabs(tabs);
-                xml += SerializePrimitiveData(element, dataType);
+
+                if(ValidateIfClass(element))
+                    xml += SerializeCustomData(element,
+                        ParsePrimitiveDataType(element.GetType().ToString()), tabs);
+
+                else
+                    xml += SerializePrimitiveData(element, dataType);
             }
 
             return xml;
@@ -154,7 +160,12 @@ namespace XMLSerializerLogic
         private bool ValidateIfClass(MemberInfo member, object content)
         {
             return member.GetValue(content).GetType().IsClass && !(member.GetValue(content) is string
-                                                              || member.GetValue(content) is string[]);
+                                                              || member.GetValue(content).GetType().IsArray);
+        }
+
+        private bool ValidateIfClass(object content)
+        {
+            return content.GetType().IsClass && !(content is string);
         }
     }
 }

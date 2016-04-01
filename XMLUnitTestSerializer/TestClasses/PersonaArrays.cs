@@ -11,12 +11,14 @@ namespace XMLUnitTestSerializer.TestClasses
         public string Name;
         public int Age;
         public string[] TopAnime { get; set; }
+        public char[] Letters;
 
         public PersonaArrays()
         {
             Name = "Alejandro";
             Age = 20;
             TopAnime = new[] {"DBZ", "Fairy Tail", "Bleach", "Saint Seiya", "Naruto", "Yugioh"};
+            Letters = new[] {'a', 'l', 'e'};
         }
     }
 }

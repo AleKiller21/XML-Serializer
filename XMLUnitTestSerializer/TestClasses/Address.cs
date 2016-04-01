@@ -12,11 +12,11 @@ namespace XMLUnitTestSerializer.TestClasses
         public string HomeAddress;
         public int HouseNumber { get; set; }
 
-        public Address()
+        public Address(string city, string homeAddress, int houseNumber)
         {
-            City = "San Pedro Sula";
-            HomeAddress = "Col. Montecarlo";
-            HouseNumber = 5678;
+            City = city;
+            HomeAddress = homeAddress;
+            HouseNumber = houseNumber;
         }
     }
 }
