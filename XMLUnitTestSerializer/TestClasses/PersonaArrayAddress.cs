@@ -12,6 +12,7 @@ namespace XMLUnitTestSerializer.TestClasses
         public int Age;
         public double Salary { get; set; }
         public Address[] Addresses { get; set; }
+        public DateTime Time { get; set; }
 
         public PersonaArrayAddress()
         {
@@ -20,6 +21,7 @@ namespace XMLUnitTestSerializer.TestClasses
             Salary = 56000.35;
             Addresses = new [] {new Address("San Pedro Sula", "Montecarlo", 5678), 
                                 new Address("Tegucigalpa", "Los Laureles", 8765)};
+            Time = DateTime.Today;
         }
     }
 }

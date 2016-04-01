@@ -16,10 +16,14 @@ namespace XMLSerializerLogic
         {
             _primitiveTypes = new List<string>
             {
+                "Byte",
                 "Int32",
+                "UInt32",
                 "Single",
                 "Double",
                 "Decimal",
+                "Int64",
+                "UInt64",
                 "String",
                 "DateTime",
                 "Boolean",
@@ -160,12 +164,13 @@ namespace XMLSerializerLogic
         private bool ValidateIfClass(MemberInfo member, object content)
         {
             return member.GetValue(content).GetType().IsClass && !(member.GetValue(content) is string
-                                                              || member.GetValue(content).GetType().IsArray);
+                                                              || member.GetValue(content).GetType().IsArray
+                                                              || member.GetValue(content) is DateTime);
         }
 
         private bool ValidateIfClass(object content)
         {
-            return content.GetType().IsClass && !(content is string);
+            return content.GetType().IsClass && !(content is string || content is DateTime);
         }
     }
 }

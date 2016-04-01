@@ -75,6 +75,30 @@ namespace XMLUnitTestSerializer
         }
 
         [TestMethod]
+        public void Serialize_PrimitiveLongData_FloatXML()
+        {
+            XMLSerializer serializer = new XMLSerializer();
+            var data = serializer.Serialize(5965321425630879361L);
+            Assert.AreEqual("<Int64>5965321425630879361</Int64>", data, "Expected a long xml");
+        }
+
+        [TestMethod]
+        public void Serialize_PrimitiveULongData_FloatXML()
+        {
+            XMLSerializer serializer = new XMLSerializer();
+            var data = serializer.Serialize(17446744073709551615UL);
+            Assert.AreEqual("<UInt64>17446744073709551615</UInt64>", data, "Expected a ulong xml");
+        }
+
+        [TestMethod]
+        public void Serialize_PrimitiveUIntData_FloatXML()
+        {
+            XMLSerializer serializer = new XMLSerializer();
+            var data = serializer.Serialize(4294967295);
+            Assert.AreEqual("<UInt32>4294967295</UInt32>", data, "Expected a uint xml");
+        }
+
+        [TestMethod]
         public void Serialize_ClassDataWithPrimitiveFields_PersonaFieldsXML()
         {
             XMLSerializer serializer = new XMLSerializer();
@@ -164,7 +188,8 @@ namespace XMLUnitTestSerializer
                             "<Address>\n\t\t" +
                             "<City>Tegucigalpa</City>\n\t\t" +
                             "<HomeAddress>Los Laureles</HomeAddress>\n\t\t" +
-                            "<HouseNumber>8765</HouseNumber>\n\t</Address>\n" +
+                            "<HouseNumber>8765</HouseNumber>\n\t</Address>\n\t" +
+                            "<Time>4/1/2016 12:00:00 AM</Time>\n" +
                             "</PersonaArrayAddress>",
                             data, "Expected a PersonaArrays xml");
         }
