@@ -63,8 +63,7 @@ namespace XMLSerializerLogic
         {
             foreach (var fieldInfo in fields)
             {
-                xml += "\n\t" + "<" + fieldInfo.Name + ">" + fieldInfo.GetValue(content)
-                       + "</" + fieldInfo.Name + ">";
+                xml += "\n\t" + SerializePrimitiveData(fieldInfo.GetValue(content), fieldInfo.Name);
             }
 
             return xml;
@@ -74,8 +73,7 @@ namespace XMLSerializerLogic
         {
             foreach (var propertyInfo in properties)
             {
-                xml += "\n\t" + "<" + propertyInfo.Name + ">" + propertyInfo.GetValue(content)
-                       + "</" + propertyInfo.Name + ">";
+                xml += "\n\t" + SerializePrimitiveData(propertyInfo.GetValue(content), propertyInfo.Name);
             }
 
             return xml;
