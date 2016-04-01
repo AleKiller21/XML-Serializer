@@ -33,6 +33,9 @@ namespace XMLSerializerLogic
 
         public string Serialize(object content)
         {
+            if (content == null || content.Equals(""))
+                return "";
+
             string dataType = ParsePrimitiveDataType(content.GetType().ToString());
 
             foreach (var type in _primitiveTypes)
@@ -57,8 +60,8 @@ namespace XMLSerializerLogic
             PropertyInfo[] properties = content.GetType().GetProperties();
 
             string xml = string.Format("<{0}>", dataType);
-            xml = SerializeFields(fields, xml, content, tabs+1);
-            xml = SerializeProperties(properties, xml, content, tabs + 1);
+            xml += SerializeFields(fields, "", content, tabs+1);
+            xml += SerializeProperties(properties, "", content, tabs + 1);
 
             xml += "\n";
 
@@ -73,6 +76,9 @@ namespace XMLSerializerLogic
         {
             foreach (var member in members)
             {
+                if (member.GetValue(content) == null || member.GetValue(content).Equals(""))
+                    continue;
+
                 string attributeName = SetNameAttribute(member, content);
 
                 if (ValidateIfClass(member, content))
@@ -86,7 +92,7 @@ namespace XMLSerializerLogic
 
                 else if (member.GetValue(content).GetType().IsArray)
                 {
-                    xml = SerializeArrays(member.GetValue(content), tabs, xml, member.Name);
+                    xml += SerializeArrays(member.GetValue(content), tabs, "", member.Name);
                 }
 
 
@@ -120,6 +126,9 @@ namespace XMLSerializerLogic
         {
             foreach (var element in (IEnumerable)content)
             {
+                if(element == null || element.Equals(""))
+                    continue;
+
                 xml += "\n";
                 xml += AddTabs(tabs);
 

@@ -53,10 +53,14 @@
     <Compile Include="TestClasses\Address.cs" />
     <Compile Include="TestClasses\Persona.cs" />
     <Compile Include="TestClasses\PersonaAddress.cs" />
+    <Compile Include="TestClasses\PersonaAddressNull.cs" />
     <Compile Include="TestClasses\PersonaArrayAddress.cs" />
+    <Compile Include="TestClasses\PersonaArrayAddressNull.cs" />
     <Compile Include="TestClasses\PersonaArrays.cs" />
     <Compile Include="TestClasses\PersonaAttributes.cs" />
     <Compile Include="TestClasses\PersonaFields.cs" />
+    <Compile Include="TestClasses\PersonaNullArrays.cs" />
+    <Compile Include="TestClasses\PersonaNullFieldProperty.cs" />
     <Compile Include="TestClasses\PersonaProperties.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
