@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace XMLSerializerLogic
 {
@@ -35,7 +36,7 @@ namespace XMLSerializerLogic
                     return SerializePrimitiveData(content, dataType);
             }
 
-            return SerializeCustomData(content, dataType);
+            return SerializeCustomData(content, dataType, 0);
         }
 
         private string SerializePrimitiveData(object content, string dataType)
@@ -45,43 +46,76 @@ namespace XMLSerializerLogic
             return xml;
         }
 
-        private string SerializeCustomData(object content, string dataType)
+        private string SerializeCustomData(object content, string dataType, int tabs)
         {
             FieldInfo[] fields = content.GetType().GetFields();
             PropertyInfo[] properties = content.GetType().GetProperties();
 
             string xml = string.Format("<{0}>", dataType);
-            xml = SerializeFields(fields, xml, content);
-            xml = SerializeProperties(properties, xml, content);
+            xml = SerializeFields(fields, xml, content, tabs+1);
+            xml = SerializeProperties(properties, xml, content, tabs + 1);
 
-            xml += "\n" + "</" + dataType + ">";
+            xml += "\n";
+
+            xml += AddTabs(tabs);
+
+            xml += "</" + dataType + ">";
 
             return xml;
         }
 
-        private string SerializeFields(IEnumerable<FieldInfo> fields, string xml, object content)
+        private string SerializeMembers(IEnumerable<MemberInfo> members, string xml, object content, int tabs)
         {
-            foreach (var fieldInfo in fields)
+            foreach (var member in members)
             {
-                xml += "\n\t" + SerializePrimitiveData(fieldInfo.GetValue(content), fieldInfo.Name);
+                if (member.GetValue(content).GetType().IsClass && !(member.GetValue(content) is string))
+                {
+                    xml += "\n";
+                    xml += AddTabs(tabs);
+
+                    xml += SerializeCustomData(member.GetValue(content),
+                        ParsePrimitiveDataType(member.GetValue(content).GetType().ToString()), tabs);
+                }
+
+
+                else
+                {
+                    xml += "\n";
+                    xml += AddTabs(tabs);
+
+                    xml += SerializePrimitiveData(member.GetValue(content), member.Name);
+                }
             }
 
             return xml;
         }
 
-        private string SerializeProperties(IEnumerable<PropertyInfo> properties, string xml, object content)
+        private string SerializeFields(IEnumerable<FieldInfo> fields, string xml, object content, int tabs)
         {
-            foreach (var propertyInfo in properties)
-            {
-                xml += "\n\t" + SerializePrimitiveData(propertyInfo.GetValue(content), propertyInfo.Name);
-            }
+            return SerializeMembers(fields, xml, content, tabs);
+        }
 
-            return xml;
+        private string SerializeProperties(IEnumerable<PropertyInfo> properties, string xml, object content, int tabs)
+        {
+            return SerializeMembers(properties, xml, content, tabs);
         }
 
         private string ParsePrimitiveDataType(string dataType)
         {
-            return dataType.Split('.')[1];
+            //return dataType.Split('.')[1];
+            string[] types = dataType.Split('.');
+
+            return types[types.Length - 1];
+        }
+
+        private string AddTabs(int tabs)
+        {
+            string temp = "";
+
+            for (int i = 0; i < tabs; i++)
+                temp += "\t";
+
+            return temp;
         }
     }
 }

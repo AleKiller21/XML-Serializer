@@ -4,19 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XMLUnitTestSerializer
+namespace XMLUnitTestSerializer.TestClasses
 {
     public class Persona
     {
         public string Nombre;
         public int Edad;
-        public int NumCuenta { get; set; }
 
         public Persona()
         {
-            Nombre = "Ale";
+            this.Nombre = "Alejandro";
             Edad = 20;
-            NumCuenta = 21351064;
+            Direccion = "San Pedro Sula";
+            Colonia = "Montecarlo";
         }
+
+        public string Direccion { get; set; }
+        public string Colonia { get; set; }
     }
 }

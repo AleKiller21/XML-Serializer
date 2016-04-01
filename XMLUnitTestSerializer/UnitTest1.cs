@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using XMLSerializerLogic;
+using XMLUnitTestSerializer.TestClasses;
 
 namespace XMLUnitTestSerializer
 {
@@ -28,7 +29,7 @@ namespace XMLUnitTestSerializer
         {
             XMLSerializer serializer = new XMLSerializer();
             var data = serializer.Serialize(DateTime.Today);
-            Assert.AreEqual("<DateTime>3/31/2016 12:00:00 AM</DateTime>",
+            Assert.AreEqual("<DateTime>4/1/2016 12:00:00 AM</DateTime>",
                 data, "Expected a DateTime xml");
         }
 
@@ -74,13 +75,47 @@ namespace XMLUnitTestSerializer
         }
 
         [TestMethod]
+        public void Serialize_ClassDataWithSimpleFields_PersonaFieldsXML()
+        {
+            XMLSerializer serializer = new XMLSerializer();
+            var data = serializer.Serialize(new PersonaFields());
+            Assert.AreEqual("<PersonaFields>\n\t<Nombre>Ale</Nombre>\n\t<Edad>20</Edad>\n</PersonaFields>",
+                            data, "Expected a PersonaFields xml");
+        }
+
+        [TestMethod]
+        public void Serialize_ClassDataWithSimpleProperties_PersonaPropertiesXML()
+        {
+            XMLSerializer serializer = new XMLSerializer();
+            var data = serializer.Serialize(new PersonaProperties());
+            Assert.AreEqual("<PersonaProperties>\n\t<NumCuenta>21351064</NumCuenta>\n\t" +
+                            "<Universidad>Unitec</Universidad>\n</PersonaProperties>",
+                            data, "Expected a PersonaProperties xml");
+        }
+
+        [TestMethod]
         public void Serialize_ClassDataWithSimpleFieldsAndProperties_PersonaXML()
         {
             XMLSerializer serializer = new XMLSerializer();
             var data = serializer.Serialize(new Persona());
-            Assert.AreEqual("<Persona>\n\t<Nombre>Ale</Nombre>\n\t<Edad>20</Edad>\n" +
-                            "\t<NumCuenta>21351064</NumCuenta>\n</Persona>",
-                    data, "Expected a Persona xml");
+            Assert.AreEqual("<Persona>\n\t<Nombre>Alejandro</Nombre>\n\t" +
+                            "<Edad>20</Edad>\n\t<Direccion>San Pedro Sula</Direccion>\n\t" +
+                            "<Colonia>Montecarlo</Colonia>\n</Persona>",
+                            data, "Expected a Persona xml");
+        }
+
+        [TestMethod]
+        public void Serialize_ClassWithNestedClass_PersonaAddressXML()
+        {
+            XMLSerializer serializer = new XMLSerializer();
+            var data = serializer.Serialize(new PersonaAddress());
+            Assert.AreEqual("<PersonaAddress>\n\t<Name>Alejandro</Name>\n\t" +
+                            "<Genre>Male</Genre>\n\t<Address>\n\t\t" +
+                            "<City>San Pedro Sula</City>\n\t\t" +
+                            "<HomeAddress>Col. Montecarlo</HomeAddress>\n\t\t" +
+                            "<HouseNumber>5678</HouseNumber>\n\t</Address>\n" +
+                            "</PersonaAddress>",
+                            data, "Expected a PersonaAddress xml");
         }
     }
 }
